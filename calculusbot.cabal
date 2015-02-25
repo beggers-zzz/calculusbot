@@ -28,4 +28,5 @@ executable interact
     main-is:                Main.hs
     build-depends:          base >= 4.7 && <= 5
                           , calculusbot
+                          , parsec
     default-language:       Haskell2010
