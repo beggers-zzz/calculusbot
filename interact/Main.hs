@@ -8,10 +8,12 @@ import Text.Parsec.Expr
 import Text.Parsec.Language
 import qualified Text.Parsec.Token as Token
 
-main = print getExpr
+main = interact $ show . getExpr
 
-getExpr :: CB.Expr
-getExpr = (CB.Var "7")
+getExpr :: String -> CB.Expr
+getExpr input = case parse expParser "" input of
+                    Left e -> error $ show e
+                    Right r -> r
 
 
 languageDef = 
@@ -31,7 +33,8 @@ integer = Token.integer         lexer
 
 expParser = buildExpressionParser ops terms
 
-ops = [ [Infix (reservedOp "^"      >> return (CB.BinExpr CB.Power )) AssocRight]
+ops = [ [Prefix (reservedOp "-"      >> return (CB.Neg              ))           ]
+      , [Infix (reservedOp "^"      >> return (CB.BinExpr CB.Power )) AssocRight]
       , [Infix (reservedOp "**"     >> return (CB.BinExpr CB.Power )) AssocRight]
       , [Infix (reservedOp "*"      >> return (CB.BinExpr CB.Times )) AssocLeft]
       , [Infix (reservedOp "/"      >> return (CB.BinExpr CB.Divide)) AssocLeft]
@@ -40,40 +43,49 @@ ops = [ [Infix (reservedOp "^"      >> return (CB.BinExpr CB.Power )) AssocRight
       ]
 
 terms = parens expParser
-      <|> liftM CB.Var identifier
-      <|> do { reserved "sinh"
+      <|> do { reserved "e"
+             ; return (CB.Const CB.E)
+             }
+      <|> do { reserved "pi"
+             ; return (CB.Const CB.Pi)
+             }
+      <|> do { reserved "log"
+             ; e <- parens expParser
+             ; return (CB.BinExpr CB.Log (CB.Const CB.E) e)
+             }
+      <|> do { reserved "logBase"
              ; char '('
-             ; e <- expParser
+             ; e1 <- expParser
+             ; char ','
+             ; e2 <- expParser
              ; char ')'
+             ; return (CB.BinExpr CB.Log e1 e2)
+             }
+      <|> do { reserved "sinh"
+             ; e <- parens expParser
              ; return (CB.UnExpr CB.Sinh e)
              }
       <|> do { reserved "cosh"
-             ; char '('
-             ; e <- expParser
-             ; char ')'
+             ; e <- parens expParser
              ; return (CB.UnExpr CB.Cosh e)
              }
       <|> do { reserved "tanh"
-             ; char '('
-             ; e <- expParser
-             ; char ')'
+             ; e <- parens expParser
              ; return (CB.UnExpr CB.Tanh e)
              }
       <|> do { reserved "sin"
-             ; char '('
-             ; e <- expParser
-             ; char ')'
+             ; e <- parens expParser
              ; return (CB.UnExpr CB.Sin e)
              }
       <|> do { reserved "cos"
-             ; char '('
-             ; e <- expParser
-             ; char ')'
+             ; e <- parens expParser
              ; return (CB.UnExpr CB.Cos e)
              }
       <|> do { reserved "tan"
-             ; char '('
-             ; e <- expParser
-             ; char ')'
+             ; e <- parens expParser
              ; return (CB.UnExpr CB.Tan e)
+             }
+      <|> liftM CB.Var identifier
+      <|> do { i <- integer
+             ; return (CB.Const (CB.IntLit i))
              }
