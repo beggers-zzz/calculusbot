@@ -3,13 +3,7 @@ module Calculusbot where
 data Expr = Var String
           | Const Const
           | BinExpr BinOp Expr Expr
-          | Sin Expr
-          | Cos Expr
-          | Tan Expr
-          | Sinh Expr
-          | Cosh Expr
-          | Tanh Expr
-          | Log Expr Expr
+          | UnExpr UnOp Expr
           deriving (Show)
 
 data BinOp = Plus
@@ -17,7 +11,16 @@ data BinOp = Plus
            | Times
            | Divide
            | Power
+           | Log
            deriving (Show)
+
+data UnOp = Sin
+          | Cos
+          | Tan
+          | Sinh
+          | Cosh
+          | Tanh
+          deriving (Show)
 
 data Const = E
            | Pi
