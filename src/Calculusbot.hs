@@ -1,9 +1,9 @@
 
 module Calculusbot where
 
-data Expr = Var Char
+data Expr = Var String
           | NumLit Integer
-          | BinExpr Expr BinOp Expr
+          | BinExpr BinOp Expr Expr
           deriving (Show)
 data BinOp = Plus
            | Minus
