@@ -1,10 +1,10 @@
 module Calculusbot.LanguageDef where
 
-data Expr = Var String
+data CBExpr = Var String
           | Const Const
-          | Neg Expr
-          | BinExpr BinOp Expr Expr
-          | UnExpr UnOp Expr
+          | Neg CBExpr
+          | BinExpr BinOp CBExpr CBExpr
+          | UnExpr UnOp CBExpr
           deriving (Show)
 
 data BinOp = Plus

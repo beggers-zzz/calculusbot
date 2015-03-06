@@ -11,7 +11,7 @@ import Text.Parsec.Language
 import qualified Text.Parsec.Token as Token
 
 
-parseExpr :: String -> Expr
+parseExpr :: String -> CBExpr
 parseExpr str = case parse expParser "" str of
     Left e -> error $ show e
     Right r -> r

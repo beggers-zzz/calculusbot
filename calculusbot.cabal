@@ -19,6 +19,7 @@ library
     exposed-modules:        Calculusbot
                             Calculusbot.Parse
                             Calculusbot.LanguageDef
+                            Calculusbot.Differentiate
     -- other-modules:       
     -- other-extensions:    
     build-depends:          base >=4.7 && <4.8
