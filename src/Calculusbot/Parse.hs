@@ -34,7 +34,7 @@ integer = Token.integer         lexer
 
 expParser = buildExpressionParser ops terms
 
-ops = [ [Prefix (reservedOp "-"      >> return (Neg              ))           ]
+ops = [ [Prefix (reservedOp "-"      >> return (UnExpr Neg   ))           ]
       , [Infix (reservedOp "^"      >> return (BinExpr Power )) AssocRight]
       , [Infix (reservedOp "**"     >> return (BinExpr Power )) AssocRight]
       , [Infix (reservedOp "*"      >> return (BinExpr Times )) AssocLeft]

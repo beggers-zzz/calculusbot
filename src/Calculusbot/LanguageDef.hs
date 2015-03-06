@@ -2,7 +2,6 @@ module Calculusbot.LanguageDef where
 
 data CBExpr = Var String
           | Const Const
-          | Neg CBExpr
           | BinExpr BinOp CBExpr CBExpr
           | UnExpr UnOp CBExpr
           deriving (Show)
@@ -21,6 +20,7 @@ data UnOp = Sin
           | Sinh
           | Cosh
           | Tanh
+          | Neg
           deriving (Show)
 
 data Const = E
