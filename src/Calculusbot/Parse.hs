@@ -16,7 +16,6 @@ parseExpr str = case parse expParser "" str of
     Left e -> error $ show e
     Right r -> r
 
-
 languageDef = 
     emptyDef { Token.identStart         = letter
              , Token.identLetter        = letter
@@ -52,7 +51,7 @@ terms = parens expParser
              }
       <|> do { reserved "log"
              ; e <- parens expParser
-             ; return (BinExpr Log (Const E) e)
+             ; return (UnExpr Log e)
              }
       <|> do { reserved "logBase"
              ; char '('
@@ -60,7 +59,7 @@ terms = parens expParser
              ; char ','
              ; e2 <- expParser
              ; char ')'
-             ; return (BinExpr Log e1 e2)
+             ; return (BinExpr Divide (UnExpr Log e2) (UnExpr Log e1))
              }
       <|> do { reserved "sinh"
              ; e <- parens expParser
