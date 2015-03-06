@@ -43,6 +43,10 @@ ops = [ [Prefix (reservedOp "-"      >> return (UnExpr Neg   ))           ]
       ]
 
 terms = parens expParser
+      <|> do { space
+             ; e <- expParser
+             ; return e
+             }
       <|> do { reserved "e"
              ; return (Const E)
              }
@@ -58,6 +62,7 @@ terms = parens expParser
              ; e1 <- expParser
              ; char ','
              ; e2 <- expParser
+             ; spaces
              ; char ')'
              ; return (BinExpr Divide (UnExpr Log e2) (UnExpr Log e1))
              }
