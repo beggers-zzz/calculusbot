@@ -1,5 +1,6 @@
 module Main where
 
 import Calculusbot.Parse
+import Calculusbot.Unparse
 
-main = interact $ show . parseExpr
+main = interact $ unparseExpr . parseExpr
