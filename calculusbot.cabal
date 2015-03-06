@@ -18,6 +18,7 @@ cabal-version:              >=1.10
 library
     exposed-modules:        Calculusbot
                             Calculusbot.Parse
+                            Calculusbot.Unparse
                             Calculusbot.LanguageDef
                             Calculusbot.Differentiate
     -- other-modules:       
