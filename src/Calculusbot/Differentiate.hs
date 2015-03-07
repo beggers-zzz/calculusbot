@@ -27,7 +27,7 @@ dUnOp Sinh e = (BinExpr Times (d e) (UnExpr Cosh e))
 dUnOp Cosh e = (BinExpr Times (d e) (UnExpr Sinh e))
 dUnOp Tanh e = (BinExpr Minus (Const (IntLit 1)) (BinExpr Power (UnExpr Tanh e) (Const (IntLit 2))))
 dUnOp Neg e = (UnExpr Neg (d e))
-dUnOp op e = (UnExpr op e)
+dUnOp Log e = (BinExpr Divide (d e) e)
 
 productRule :: CBExpr -> CBExpr -> CBExpr
 productRule l r = (BinExpr Plus (BinExpr Times (d l) r) (BinExpr Times l (d r)))
