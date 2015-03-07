@@ -3,6 +3,7 @@ module Calculusbot.Parse(
 ) where
 
 import Calculusbot.LanguageDef
+import Calculusbot.Simplify
 
 import Control.Monad
 import Text.Parsec
@@ -14,7 +15,7 @@ import qualified Text.Parsec.Token as Token
 parseExpr :: String -> CBExpr
 parseExpr str = case parse expParser "" str of
     Left e -> error $ show e
-    Right r -> r
+    Right r -> simplify r
 
 languageDef = 
     emptyDef { Token.identStart         = letter

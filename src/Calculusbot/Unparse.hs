@@ -3,9 +3,10 @@ module Calculusbot.Unparse(
 ) where
 
 import Calculusbot.LanguageDef
+import Calculusbot.Simplify
 
 unparseExpr :: CBExpr -> String
-unparseExpr e = unparseExpr' e ++ "\n"
+unparseExpr e = unparseExpr' (simplify e) ++ "\n"
 
 unparseExpr' :: CBExpr -> String
 unparseExpr' (Var x) = x

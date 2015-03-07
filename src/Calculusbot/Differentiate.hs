@@ -3,9 +3,10 @@ module Calculusbot.Differentiate(
 ) where
 
 import Calculusbot.LanguageDef
+import Calculusbot.Simplify
 
 differentiate :: CBExpr -> CBExpr
-differentiate = d
+differentiate = simplify . d
 
 d (Const c) = (Const (IntLit 0))
 d (Var s) = (Const (IntLit 1))
