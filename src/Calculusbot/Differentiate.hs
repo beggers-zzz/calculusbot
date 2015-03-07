@@ -20,6 +20,10 @@ dBinOp Divide l r = quotientRule l r
 dBinOp op l r = (BinExpr op l r)  -- temporary cop-out to get stuff mostly working
 
 dUnOp :: UnOp -> CBExpr -> CBExpr
+dUnOp Sin e = (BinExpr Times (d e) (UnExpr Cos e))
+dUnOp Cos e = (BinExpr Times (d e) (UnExpr Neg (UnExpr Sin e)))
+
+dUnOp Neg e = (UnExpr Neg (d e))
 dUnOp op e = (UnExpr op e)
 
 productRule :: CBExpr -> CBExpr -> CBExpr
@@ -29,16 +33,16 @@ quotientRule :: CBExpr -> CBExpr -> CBExpr
 quotientRule l r = (BinExpr Divide
                         (BinExpr Minus
                             (BinExpr Times
-                                l
-                                (d r)
-                            )
-                            (BinExpr Times
                                 r
                                 (d l)
                             )
+                            (BinExpr Times
+                                l
+                                (d r)
+                            )
                         )
                         (BinExpr Power
-                            l
+                            r
                             (Const (IntLit 2))   -- "magic number" my ass
                         )
                     )
