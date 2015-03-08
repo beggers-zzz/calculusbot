@@ -4,4 +4,9 @@ import Calculusbot.Parse
 import Calculusbot.Unparse
 import Calculusbot.Differentiate
 
-main = interact $ unparseExpr . differentiate . parseExpr
+main :: IO ()
+main = do
+    s <- getLine
+    let e = parseExpr s
+    let d = differentiate e "x"
+    putStrLn $ unparseExpr d
