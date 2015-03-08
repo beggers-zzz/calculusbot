@@ -1,0 +1,11 @@
+This is for future Ben, if he feels like working on this some more.
+
+Easy things to re-familiarize yourself with code:
+    - Improve simplification
+        - make it combine (Const (IntLit x)) expressions
+        - evaluate trig functions, etc at 0, or 1, or whatever is easy for them
+    - Add more functions (inverse trig functions are a big one)
+    - Function evaluation
+
+Real improvements:
+    - Integration (probably without convergence testing, at first)
