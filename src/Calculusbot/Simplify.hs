@@ -19,4 +19,30 @@ simplify (BinExpr Minus l r)
         sr = simplify r
         sl = simplify l
 
+simplify (BinExpr Times l r)
+    | sr == (Const (IntLit 0))      = (Const (IntLit 0))
+    | sl == (Const (IntLit 0))      = (Const (IntLit 0))
+    | otherwise                     = (BinExpr Times sl sr)
+    where
+        sr = simplify r
+        sl = simplify l
+
+simplify (BinExpr Divide l r)
+    | sr == (Const (IntLit 0))      = error "Divide by 0 error"
+    | sl == (Const (IntLit 0))      = (Const (IntLit 0))
+    | otherwise                     = (BinExpr Divide sl sr)
+    where
+        sr = simplify r
+        sl = simplify l
+
+simplify (BinExpr Power b e)
+    | se == (Const (IntLit 0))      = (Const (IntLit 1))
+    | sb == (Const (IntLit 0))      = (Const (IntLit 0))
+    | sb == (Const (IntLit 1))      = sb
+    | se == (Const (IntLit 1))      = sb
+    | otherwise                     = (BinExpr Power sb se)
+    where
+        sb = simplify b
+        se = simplify e
+
 simplify e = e
