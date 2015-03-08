@@ -21,6 +21,7 @@ library
                             Calculusbot.Unparse
                             Calculusbot.LanguageDef
                             Calculusbot.Differentiate
+                            Calculusbot.Simplify
     -- other-modules:       
     -- other-extensions:    
     build-depends:          base >=4.7 && <4.8
