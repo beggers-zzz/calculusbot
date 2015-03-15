@@ -3,6 +3,7 @@ module Calculusbot.Simplify where
 import Calculusbot.LanguageDef
 
 simplify :: CBExpr -> CBExpr
+simplify (BinExpr Plus (Const (IntLit x)) (Const (IntLit y))) = (Const (IntLit (x + y)))
 simplify (BinExpr Plus l r)
     | sr == (Const (IntLit 0))      = sl
     | sl == (Const (IntLit 0))      = sr
@@ -11,6 +12,7 @@ simplify (BinExpr Plus l r)
         sr = simplify r
         sl = simplify l
 
+simplify (BinExpr Minus (Const (IntLit x)) (Const (IntLit y))) = (Const (IntLit (x - y)))
 simplify (BinExpr Minus l r)
     | sr == (Const (IntLit 0))      = sl
     | sl == (Const (IntLit 0))      = (UnExpr Neg sr)
@@ -19,6 +21,7 @@ simplify (BinExpr Minus l r)
         sr = simplify r
         sl = simplify l
 
+simplify (BinExpr Times (Const (IntLit x)) (Const (IntLit y))) = (Const (IntLit (x * y)))
 simplify (BinExpr Times l r)
     | sr == (Const (IntLit 0))      = (Const (IntLit 0))
     | sl == (Const (IntLit 0))      = (Const (IntLit 0))
@@ -29,6 +32,7 @@ simplify (BinExpr Times l r)
         sr = simplify r
         sl = simplify l
 
+-- simplify (BinExpr Divide (Const (IntLit x)) (Const (IntLit y)) = (Const (IntLit (x / y)))
 simplify (BinExpr Divide l r)
     | sr == (Const (IntLit 0))      = error "Divide by 0 error"
     | sl == (Const (IntLit 0))      = (Const (IntLit 0))
@@ -47,5 +51,7 @@ simplify (BinExpr Power b e)
     where
         sb = simplify b
         se = simplify e
+
+simplify (UnExpr Log (Const E)) = (Const (IntLit 1))
 
 simplify e = e
